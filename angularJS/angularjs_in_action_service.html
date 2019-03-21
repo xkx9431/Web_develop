@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+    <meta charset="utf-8">
+    <script src="angular.js"></script>
+    <style>
+        input.ng-invalid {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="myCtrl">
+        <input type="number" ng-model="number">
+        <p>{{number}} 的16进制是:</p>
+
+        <h2>{{hex}}</h2>
+
+    </div>
+
+    <p>自定义服务，用于转换16进制数：</p>
+
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.service('hexafy', function () {
+            this.myFunc = function (x) {
+                return x.toString(16);
+            }
+        });
+        app.controller('myCtrl', function ($scope, hexafy) {
+            $scope.number = 16;
+            $scope.hex = hexafy.myFunc($scope.number);
+
+
+            $scope.$watch('number', function () {
+                $scope.hex = hexafy.myFunc($scope.number);
+            });
+
+        });
+    </script>
+</body>
+
+</html>
